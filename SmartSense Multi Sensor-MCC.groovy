@@ -70,7 +70,7 @@ metadata {
 		}
 		
 		section {
-			input "TempReportTimeMax", "number", title: "Temperature Report", description: "Select how many seconds interval for temperature report.", defaultValue: 3600, range: "300..3600", displayDuringSetup: true
+			input "TempReportTimeMax", "number", title: "Temperature Report interval", description: "Select how many minutes interval for temperature report.", defaultValue: 60, range: "5..120", displayDuringSetup: true
 		}
         section {
 			input("garageSensor", "enum", title: "Use on garage door", description: "", options: ["Yes", "No"], defaultValue: "No", required: false, displayDuringSetup: false)
@@ -425,14 +425,14 @@ def configure() {
 	// battery minReport 30 seconds, maxReportTime 6 hrs by default
 	if (device.getDataValue("manufacturer") == "Samjin") {
 		configCmds += zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0021, DataType.UINT8, 30, 21600, 0x10) +
-				zigbee.temperatureConfig(30, TempReportTimeMax) +
+				zigbee.temperatureConfig(30, TempReportTimeMax * 60) +
 				zigbee.configureReporting(0xFC02, 0x0010, DataType.BITMAP8, 0, 3600, 0x01, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0012, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0013, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0014, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode])
 	} else {
 		configCmds += zigbee.batteryConfig() +
-				zigbee.temperatureConfig(30, TempReportTimeMax) +
+				zigbee.temperatureConfig(30, TempReportTimeMax * 60) +
 				zigbee.configureReporting(0xFC02, 0x0010, DataType.BITMAP8, 10, 3600, 0x01, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0012, DataType.INT16, 1, 3600, 0x0001, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0013, DataType.INT16, 1, 3600, 0x0001, [mfgCode: manufacturerCode]) +
