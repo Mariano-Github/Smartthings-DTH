@@ -44,6 +44,7 @@ metadata {
         }
         section {
             input "tempOffset", "number", title: "Temperature offset", description: "Select how many degrees to adjust the temperature.", range: "-100..100", displayDuringSetup: false
+            input "TempReportTimeMax", "number", title: "Temperature Report", description: "Select how many minutes interval for temperature report.", defaultValue: 60, range: "5..120", displayDuringSetup: true //Mod dec 28/20
         }
     }
 
@@ -285,7 +286,7 @@ def configure() {
     } else {
         configCmds += zigbee.batteryConfig()
     }
-    configCmds += zigbee.temperatureConfig(30, 300)
+    configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60)
 
     return refresh() + configCmds + refresh() // send refresh cmds as part of config
 }
