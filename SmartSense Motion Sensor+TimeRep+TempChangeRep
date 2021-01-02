@@ -63,8 +63,11 @@ metadata {
 		section {
 			input "tempOffset", "number", title: "Temperature offset", description: "Select how many degrees to adjust the temperature.", range: "-100..100", displayDuringSetup: false
 		}
-        section {
-			input "TempReportTimeMax", "number", title: "Temperature Report Interval", description: "Select how many minutes interval for temperature report.", defaultValue: 60, range: "5..120", displayDuringSetup: true
+                section {
+			input "TempReportTimeMax", "number", title: "Temperature Report Interval", description: "Select how many minutes interval for temperature report (default 5).", defaultValue: 60, range: "5..120", displayDuringSetup: true
+		}
+		section {
+			input "TempReportTrigger", "number", title: "Temperature Report Trigger", description: "Select how many tenths of degree (1/100) Changes trigger temperature report (default 100).", range: "50..300", displayDuringSetup: true
 		}
 	}
 
@@ -308,6 +311,12 @@ def configure() {
 	sendEvent(name: "DeviceWatch-Enroll", displayed: false, value: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID, scheme: "TRACKED", checkInterval: 2 * 60 * 60 + 1 * 60, lowBatteryThresholds: [15, 7, 3], offlinePingable: "1"].encodeAsJSON())
 
 	log.debug "Configuring Reporting"
+	if (TempReportTrigger == null) {
+	 def TempReportTrigger = 100
+	}
+	if (TempReportTimeMax == null) {
+	 def TempReportTimeMax = 5
+	}
 	def configCmds = [zigbee.readAttribute(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000)]
 	def batteryAttr = device.getDataValue("manufacturer") == "Samjin" ? 0x0021 : 0x0020
 
@@ -327,7 +336,7 @@ def configure() {
 	if (isFrientSensor()) {
 		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 30, 300, 0x64, [destEndpoint: 0x26])
 	} else {
-		configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60)
+		configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger)
 	}
 	configCmds += zigbee.readAttribute(zigbee.IAS_ZONE_CLUSTER, zigbee.ATTRIBUTE_IAS_ZONE_STATUS)
 	configCmds += zigbee.readAttribute(zigbee.POWER_CONFIGURATION_CLUSTER, batteryAttr)
