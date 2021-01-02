@@ -12,6 +12,9 @@
  *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  *  License for the specific language governing permissions and limitations
  *  under the License.
+ * Mariano Colmenarejo (January 2021): Added Preferences for setting the interval for Temperature Report and Temperature Changes for trigger the Temperature Report
+ * The configuration settings works with new device link or re-run configuration in IDE update DTH version after new setting entry or IDE simulator configure executing 
+ 
  */
 import physicalgraph.zigbee.clusters.iaszone.ZoneStatus
 import physicalgraph.zigbee.zcl.DataType
@@ -81,9 +84,12 @@ metadata {
 		standardTile("refresh", "device.refresh", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "default", action: "refresh.refresh", icon: "st.secondary.refresh"
 		}
+		standardTile("configure", "device.configure", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+                        state "default", label:"Configure", action:"configure", icon:"st.secondary.refresh"
+                }
 
 		main(["water", "temperature"])
-		details(["water", "temperature", "battery", "refresh"])
+		details(["water", "temperature", "battery", "refresh", "configure"])
 	}
 }
 
