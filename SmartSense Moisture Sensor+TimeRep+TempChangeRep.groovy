@@ -51,8 +51,9 @@ metadata {
 		}
 		section {
 			input "tempOffset", "number", title: "Temperature offset", description: "Select how many degrees to adjust the temperature.", range: "-100..100", displayDuringSetup: false
-            input "TempReportTimeMax", "number", title: "Temperature Report", description: "Select how many minutes interval for temperature report.", defaultValue: 60, range: "5..120", displayDuringSetup: true //Mod dec 28/20
-		}
+                        input "TempReportTimeMax", "number", title: "Temperature Report Interval", description: "Select how many minutes interval for temperature report (default 5).", defaultValue: 60, range: "1..120", displayDuringSetup: true
+			input "TempReportTrigger", "number", title: "Temperature Report Trigger", description: "Select how many tenths of degree (1/100) Changes trigger temperature report (default 100).", range: "50..300", displayDuringSetup: true
+	        }
 	}
 
 	tiles(scale: 2) {
@@ -282,7 +283,7 @@ def configure() {
 	if (isFrientSensor()) {
 		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 60, 600, 0x64, [destEndpoint: 0x26])
 	} else {
-		configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60)
+		configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) // configure repor interval & Report temp trigger
 	}
 
 	return refresh() + configCmds + refresh() // send refresh cmds as part of config
