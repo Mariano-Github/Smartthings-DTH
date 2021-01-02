@@ -336,7 +336,7 @@ def configure() {
 	}
     
 	if (isFrientSensor()) {
-		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 30, 300, 0x64, [destEndpoint: 0x26])
+		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 30, TempReportTimeMax * 60, TempReportTrigger, [destEndpoint: 0x26])
 	} else {
 		configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) // configure repor interval & Report temp trigger
 	}
