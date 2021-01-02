@@ -65,11 +65,7 @@ metadata {
 		}
 		section {
 			input "tempOffset", "number", title: "Temperature offset", description: "Select how many degrees to adjust the temperature.", range: "-100..100", displayDuringSetup: false
-		}
-                section {
 			input "TempReportTimeMax", "number", title: "Temperature Report Interval", description: "Select how many minutes interval for temperature report (default 5).", defaultValue: 60, range: "5..120", displayDuringSetup: true
-		}
-		section {
 			input "TempReportTrigger", "number", title: "Temperature Report Trigger", description: "Select how many tenths of degree (1/100) Changes trigger temperature report (default 100).", range: "50..300", displayDuringSetup: true
 		}
 	}
@@ -100,6 +96,9 @@ metadata {
 		standardTile("refresh", "device.refresh", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "default", action: "refresh.refresh", icon: "st.secondary.refresh"
 		}
+		standardTile("configure", "device.configure", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+                        state "default", label:"Configure", action:"configure", icon:"st.secondary.refresh"
+                }
 
 		main(["motion", "temperature"])
 		details(["motion", "temperature", "battery", "refresh"])
