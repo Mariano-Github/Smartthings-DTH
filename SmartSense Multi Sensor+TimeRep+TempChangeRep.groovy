@@ -73,7 +73,7 @@ metadata {
 		
 		section {
 			input "TempReportTimeMax", "number", title: "Temperature Report Interval", description: "Select how many minutes interval for temperature report (default 5).", range: "1..240", displayDuringSetup: true
-			input "TempReportTrigger", "number", title: "Temperature Report Trigger", description: "Select how many degrees change (1º=100) trigger temperature report (default 100).", range: "50..300", displayDuringSetup: true
+			input "TempReportTrigger", "number", title: "Temperature Report Trigger", description: "Select how many hundredths of degree (1º =100) change to trigger temperature report (default 100).", range: "50..300", displayDuringSetup: true
 		}
         section {
 			input("garageSensor", "enum", title: "Use on garage door", description: "", options: ["Yes", "No"], defaultValue: "No", required: false, displayDuringSetup: false)
