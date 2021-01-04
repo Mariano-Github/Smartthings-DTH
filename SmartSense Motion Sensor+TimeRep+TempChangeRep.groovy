@@ -335,11 +335,22 @@ def configure() {
 		configCmds += zigbee.batteryConfig()
 	}
     
-	if (isFrientSensor()) {
+        if (TempReportTimeMax == null) { //For new device installation
+	 log.debug "Time= "+ "${TempReportTimeMax}"
+         if (isFrientSensor()) {
+		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 30, 300, 100, [destEndpoint: 0x26])
+	 } else {
+                configCmds += zigbee.temperatureConfig(30, 300, 100)
+	 }
+        } else {
+         log.debug "Time= "+ "${TempReportTimeMax}"
+          if (isFrientSensor()) {
 		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 30, TempReportTimeMax * 60, TempReportTrigger, [destEndpoint: 0x26])
-	} else {
-		configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) // configure repor interval & Report temp trigger
-	}
+	 } else {
+                configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) // configure repor interval & Report temp trigger
+	 }
+       }
+
 	configCmds += zigbee.readAttribute(zigbee.IAS_ZONE_CLUSTER, zigbee.ATTRIBUTE_IAS_ZONE_STATUS)
 	configCmds += zigbee.readAttribute(zigbee.POWER_CONFIGURATION_CLUSTER, batteryAttr)
 
