@@ -426,24 +426,44 @@ def configure() {
 		configCmds += zigbee.writeAttribute(0xFC02, 0x0000, 0x20, 0x02, [mfgCode: manufacturerCode])
 	}
 
-	// temperature minReportTime 30 seconds, maxReportTime 5 min. Reporting interval if no activity // Mod: interval min 30 sec, max 60 min ajustable, MCC 27-11-2020
+	// temperature minReportTime 30 seconds, maxReportTime 5 min. Reporting interval if no activity // Mod: interval min 30 sec, max 240 min ajustable, MCC 27-11-2020
 	// battery minReport 30 seconds, maxReportTime 6 hrs by default
-	if (device.getDataValue("manufacturer") == "Samjin") {
+
+   if (TempReportTimeMax == null) { //For new device installation
+	log.debug "Time= "+ "${TempReportTimeMax}"	
+    if (device.getDataValue("manufacturer") == "Samjin") {
 		configCmds += zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0021, DataType.UINT8, 30, 21600, 0x10) +
-        zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) + // configure repor interval & Report temp trigger
+        zigbee.temperatureConfig(30, 300, 100) + // configure repor interval & Report temp trigger
 				zigbee.configureReporting(0xFC02, 0x0010, DataType.BITMAP8, 0, 3600, 0x01, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0012, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0013, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0014, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode])
 	} else {
 		configCmds += zigbee.batteryConfig() +
-        zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) + // configure repor interval & Report temp trigger
+        zigbee.temperatureConfig(30, 300, 100) + // configure repor interval & Report temp trigger
 				zigbee.configureReporting(0xFC02, 0x0010, DataType.BITMAP8, 10, 3600, 0x01, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0012, DataType.INT16, 1, 3600, 0x0001, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0013, DataType.INT16, 1, 3600, 0x0001, [mfgCode: manufacturerCode]) +
 				zigbee.configureReporting(0xFC02, 0x0014, DataType.INT16, 1, 3600, 0x0001, [mfgCode: manufacturerCode])
 	}
-
+   } else {
+    log.debug "Time= "+ "${TempReportTimeMax}"
+    if (device.getDataValue("manufacturer") == "Samjin") {
+		configCmds += zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0021, DataType.UINT8, 30, 21600, 0x10) +
+        zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) + // configure report interval & Report temp trigger
+				zigbee.configureReporting(0xFC02, 0x0010, DataType.BITMAP8, 0, 3600, 0x01, [mfgCode: manufacturerCode]) +
+				zigbee.configureReporting(0xFC02, 0x0012, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode]) +
+				zigbee.configureReporting(0xFC02, 0x0013, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode]) +
+				zigbee.configureReporting(0xFC02, 0x0014, DataType.INT16, 0, 3600, 0x0001, [mfgCode: manufacturerCode])
+	} else {
+		configCmds += zigbee.batteryConfig() +
+        zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) + // configure report interval & Report temp trigger
+				zigbee.configureReporting(0xFC02, 0x0010, DataType.BITMAP8, 10, 3600, 0x01, [mfgCode: manufacturerCode]) +
+				zigbee.configureReporting(0xFC02, 0x0012, DataType.INT16, 1, 3600, 0x0001, [mfgCode: manufacturerCode]) +
+				zigbee.configureReporting(0xFC02, 0x0013, DataType.INT16, 1, 3600, 0x0001, [mfgCode: manufacturerCode]) +
+				zigbee.configureReporting(0xFC02, 0x0014, DataType.INT16, 1, 3600, 0x0001, [mfgCode: manufacturerCode])
+	}
+  }       
 	configCmds += zigbee.readAttribute(zigbee.POWER_CONFIGURATION_CLUSTER, batteryAttr)
 
 	return configCmds
