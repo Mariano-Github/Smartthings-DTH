@@ -313,12 +313,6 @@ def configure() {
 	sendEvent(name: "DeviceWatch-Enroll", displayed: false, value: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID, scheme: "TRACKED", checkInterval: 2 * 60 * 60 + 1 * 60, lowBatteryThresholds: [15, 7, 3], offlinePingable: "1"].encodeAsJSON())
 
 	log.debug "Configuring Reporting"
-	if (TempReportTrigger == null) {
-	 def TempReportTrigger = 100
-	}
-	if (TempReportTimeMax == null) {
-	 def TempReportTimeMax = 5
-	}
 	def configCmds = [zigbee.readAttribute(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000)]
 	def batteryAttr = device.getDataValue("manufacturer") == "Samjin" ? 0x0021 : 0x0020
 
@@ -344,7 +338,7 @@ def configure() {
 	 }
         } else {
          log.debug "Time= "+ "${TempReportTimeMax}"
-          if (isFrientSensor()) {
+         if (isFrientSensor()) {
 		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 30, TempReportTimeMax * 60, TempReportTrigger, [destEndpoint: 0x26])
 	 } else {
                 configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) // configure repor interval & Report temp trigger
