@@ -180,6 +180,7 @@ def parse(String description) {
 		}
 		map.descriptionText = temperatureScale == 'C' ? '{{ device.displayName }} was {{ value }}°C' : '{{ device.displayName }} was {{ value }}°F'
 		map.translatable = true
+		log.debug "Temperature=" + "${map.value}"
 	}
 
 	def result = maps.inject([]) {acc, it ->
