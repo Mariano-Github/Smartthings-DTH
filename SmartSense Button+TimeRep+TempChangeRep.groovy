@@ -295,9 +295,11 @@ def configure() {
     
     if (TempReportTimeMax == null) { //For new device installation
 	log.debug "Time= "+ "${TempReportTimeMax}"
+	log.debug "Trigger= "+ "${TempReportTrigger}"
         configCmds += zigbee.temperatureConfig(30, 300, 100)
     } else {
         log.debug "Time= "+ "${TempReportTimeMax}"
+	log.debug "Trigger= "+ "${TempReportTrigger}"
         configCmds += zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) // configure repor interval & Report temp trigger
     }
         
