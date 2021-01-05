@@ -431,7 +431,8 @@ def configure() {
 	// battery minReport 30 seconds, maxReportTime 6 hrs by default
 
    if (TempReportTimeMax == null) { //For new device installation
-	log.debug "Time= "+ "${TempReportTimeMax}"	
+	log.debug "Time= "+ "${TempReportTimeMax}"
+	log.debug "Trigger= "+ "${TempReportTrigger}"
     if (device.getDataValue("manufacturer") == "Samjin") {
 		configCmds += zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0021, DataType.UINT8, 30, 21600, 0x10) +
         zigbee.temperatureConfig(30, 300, 100) + // configure repor interval & Report temp trigger
@@ -449,6 +450,7 @@ def configure() {
 	}
    } else {
     log.debug "Time= "+ "${TempReportTimeMax}"
+    log.debug "Trigger= "+ "${TempReportTrigger}"
     if (device.getDataValue("manufacturer") == "Samjin") {
 		configCmds += zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0021, DataType.UINT8, 30, 21600, 0x10) +
         zigbee.temperatureConfig(30, TempReportTimeMax * 60, TempReportTrigger) + // configure report interval & Report temp trigger
