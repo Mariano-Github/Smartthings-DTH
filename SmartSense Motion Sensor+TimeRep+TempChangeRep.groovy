@@ -331,6 +331,7 @@ def configure() {
     
         if (TempReportTimeMax == null) { //For new device installation
 	 log.debug "Time= "+ "${TempReportTimeMax}"
+	 log.debug "Trigger= "+ "${TempReportTrigger}"
          if (isFrientSensor()) {
 		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 30, 300, 100, [destEndpoint: 0x26])
 	 } else {
@@ -338,6 +339,7 @@ def configure() {
 	 }
         } else {
          log.debug "Time= "+ "${TempReportTimeMax}"
+	 log.debug "Trigger= "+ "${TempReportTrigger}"
          if (isFrientSensor()) {
 		configCmds += zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 30, TempReportTimeMax * 60, TempReportTrigger, [destEndpoint: 0x26])
 	 } else {
