@@ -13,8 +13,7 @@
  *  License for the specific language governing permissions and limitations
  *  under the License.
  * Mariano Colmenarejo (January 2021): Added Preferences for setting the interval for Temperature Report and Temperature Changes for trigger the Temperature Report
- * The configuration settings works with new device link or re-run configuration in IDE update DTH version after new setting entry or IDE simulator configure executing 
- 
+ * The configuration settings works with select this device type in IDE and re-run configuration in IDE updating DTH version after new setting entry or IDE simulator configure executing 
  */
 import physicalgraph.zigbee.clusters.iaszone.ZoneStatus
 import physicalgraph.zigbee.zcl.DataType
