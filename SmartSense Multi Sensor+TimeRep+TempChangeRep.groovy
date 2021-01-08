@@ -430,9 +430,10 @@ def configure() {
 	// temperature minReportTime 30 seconds, maxReportTime 5 min. Reporting interval if no activity // Mod: interval min 30 sec, max 240 min ajustable, MCC 27-11-2020
 	// battery minReport 30 seconds, maxReportTime 6 hrs by default
 
-   if (TempReportTimeMax == null) { //For new device installation
+   if (TempReportTimeMax == null || TempReportTrigger == null) { //For new dth installation
 	log.debug "Time= "+ "${TempReportTimeMax}"
 	log.debug "Trigger= "+ "${TempReportTrigger}"
+	log.debug "one setting = null then 5 min and 1º Applied"
     if (device.getDataValue("manufacturer") == "Samjin") {
 		configCmds += zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0021, DataType.UINT8, 30, 21600, 0x10) +
         zigbee.temperatureConfig(30, 300, 100) + // configure repor interval & Report temp trigger
