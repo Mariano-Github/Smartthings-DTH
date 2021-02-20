@@ -201,8 +201,8 @@ def configure() {
     def tempTrigger = TempReportTrigger ? TempReportTrigger : 100
     def humTime = HumReportTimeMax ? HumReportTimeMax : 5
     def humTrigger = HumReportTrigger ? HumReportTrigger : 100
-    log.degub "TempReportTimeMax= ${tempTime}; TempReportTrigger= ${tempTrigger}"
-    log.degub "HumReportTimeMax= ${humTime}; HumReportTrigger= ${humTrigger}"
+    log.debug "TempReportTimeMax= ${tempTime}; TempReportTrigger= ${tempTrigger}"
+    log.debug "HumReportTimeMax= ${humTime}; HumReportTrigger= ${humTrigger}"
     
 	def manufacturer = device.getDataValue("manufacturer")
 	if (manufacturer == "Heiman"|| manufacturer == "HEIMAN") {
