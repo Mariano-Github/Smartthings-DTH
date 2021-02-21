@@ -101,6 +101,7 @@ private Map getMotionEvent(descMap) {
     // Depending on that setting, device will send payload in range 600 - 6000
     //def onTime = Integer.parseInt(descMap.data[2] + descMap.data[1], 16) / 10
     def onTime = 60 // mod feb 2021
+    log.debug "onTime= ${onTime}"
     runIn(onTime, "clearMotionStatus", [overwrite: true])
 
     createEvent([
