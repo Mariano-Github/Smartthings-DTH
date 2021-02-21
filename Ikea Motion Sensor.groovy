@@ -99,8 +99,8 @@ private Map parseAttrCmdMessage(description) {
 private Map getMotionEvent(descMap) {
     // User can manually adjust time (1 - 10 minutes) in which motion event will be cleared
     // Depending on that setting, device will send payload in range 600 - 6000
-    def onTime = Integer.parseInt(descMap.data[2] + descMap.data[1], 16) / 10
-    onTime = 60 // mod feb 2021
+    //def onTime = Integer.parseInt(descMap.data[2] + descMap.data[1], 16) / 10
+    def onTime = 60 // mod feb 2021
     runIn(onTime, "clearMotionStatus", [overwrite: true])
 
     createEvent([
