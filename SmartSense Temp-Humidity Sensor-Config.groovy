@@ -79,9 +79,12 @@ metadata {
 		standardTile("refresh", "device.refresh", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "default", action: "refresh.refresh", icon: "st.secondary.refresh"
 		}
+		standardTile("configure", "device.configure", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+                        state "default", label:"Configure", action:"configure", icon:"st.secondary.refresh"
+                }
 
 		main "temperature", "humidity"
-		details(["temperature", "humidity", "battery", "refresh"])
+		details(["temperature", "humidity", "battery", "refresh", "configure"])
 	}
 }
 
