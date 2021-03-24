@@ -26,6 +26,7 @@ metadata {
 		capability "Sensor"
 
 
+		fingerprint profileId: "0104", inClusters: "0000,0003,0402,0405,0001", outClusters: "0003", manufacturer: "ewelink", model: "66666", deviceJoinName: "Multipurpose Sensor"
 		fingerprint profileId: "0104", inClusters: "0001,0003,0020,0402,0B05,FC45", outClusters: "0019,0003", manufacturer: "CentraLite", model: "3310-S", deviceJoinName: "Multipurpose Sensor"
 		fingerprint profileId: "0104", inClusters: "0001,0003,0020,0402,0B05,FC45", outClusters: "0019,0003", manufacturer: "CentraLite", model: "3310-G", deviceJoinName: "Centralite Multipurpose Sensor" //Centralite Temp & Humidity Sensor
 		fingerprint profileId: "0104", inClusters: "0001,0003,0020,0402,0B05,FC45", outClusters: "0019,0003", manufacturer: "CentraLite", model: "3310", deviceJoinName: "Multipurpose Sensor"
@@ -220,8 +221,9 @@ def configure() {
 			zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0020, DataType.UINT8, 30, 21600, 0x1)
 	} else {
 		return refresh() +
-			zigbee.configureReporting(0xFC45, 0x0000, DataType.UINT16, 30, humTime * 60, humTrigger, ["mfgCode": 0x104E]) +   // New firmware
-			zigbee.configureReporting(0xFC45, 0x0000, DataType.UINT16, 30, humTime * 60, humTrigger, ["mfgCode": 0xC2DF]) +   // Original firmware
+			//zigbee.configureReporting(0xFC45, 0x0000, DataType.UINT16, 30, humTime * 60, humTrigger, ["mfgCode": 0x104E]) +   // New firmware
+			//zigbee.configureReporting(0xFC45, 0x0000, DataType.UINT16, 30, humTime * 60, humTrigger, ["mfgCode": 0xC2DF]) +   // Original firmware
+			zigbee.configureReporting(zigbee.RELATIVE_HUMIDITY_CLUSTER, 0x0000, DataType.UINT16, 60, humTime * 60, humTrigger) +
 			zigbee.batteryConfig() +
 			zigbee.temperatureConfig(30, tempTime * 60, tempTrigger)
 	}
