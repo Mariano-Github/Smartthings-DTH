@@ -26,7 +26,7 @@ metadata {
 		capability "Sensor"
 
 
-		fingerprint profileId: "0104", inClusters: "0000,0003,0402,0405,0001", outClusters: "0003", manufacturer: "ewelink", model: "66666", deviceJoinName: "Multipurpose Sensor"
+		fingerprint profileId: "0104", deviceId: "0302", inClusters: "0000,0001,0003,0402,0405", outClusters: "0003", manufacturer: "ewelink", model: "66666", deviceJoinName: "Multipurpose Sensor sonoff"
 		fingerprint profileId: "0104", inClusters: "0001,0003,0020,0402,0B05,FC45", outClusters: "0019,0003", manufacturer: "CentraLite", model: "3310-S", deviceJoinName: "Multipurpose Sensor"
 		fingerprint profileId: "0104", inClusters: "0001,0003,0020,0402,0B05,FC45", outClusters: "0019,0003", manufacturer: "CentraLite", model: "3310-G", deviceJoinName: "Centralite Multipurpose Sensor" //Centralite Temp & Humidity Sensor
 		fingerprint profileId: "0104", inClusters: "0001,0003,0020,0402,0B05,FC45", outClusters: "0019,0003", manufacturer: "CentraLite", model: "3310", deviceJoinName: "Multipurpose Sensor"
@@ -47,12 +47,12 @@ metadata {
 
 	preferences {
 		input "tempOffset", "number", title: "Temperature offset", description: "Select how many degrees to adjust the temperature.", range: "-100..100", displayDuringSetup: false
-        input "TempReportTimeMax", "number", title: "Temperature Report Interval", description: "Select how many minutes interval for temperature report (default 5).", range: "1..240", displayDuringSetup: true
-        input "TempReportTrigger", "number", title: "Temperature Report Trigger", description: "Select how many hundredths of degree (1º = 100) change to trigger temperature report (default 100).", range: "50..300", displayDuringSetup: true
+                input "TempReportTimeMax", "number", title: "Temperature Report Interval", description: "Select how many minutes interval for temperature report (default 5).", range: "1..240", displayDuringSetup: true
+                input "TempReportTrigger", "number", title: "Temperature Report Trigger", description: "Select how many hundredths of degree (1º = 100) change to trigger temperature report (default 100).", range: "50..300", displayDuringSetup: true
 
 		input "humidityOffset", "number", title: "Humidity offset", description: "Enter a percentage to adjust the humidity.", range: "*..*", displayDuringSetup: false
-        input "HumReportTimeMax", "number", title: "Humidity Report Interval", description: "Select how many minutes interval for Humidity report (default 5).", range: "1..240", displayDuringSetup: true
-        input "HumReportTrigger", "number", title: "Humidity Report Trigger", description: "Select how many Humidity % (1% = 100) change to trigger Humidity report (default 100).", range: "100..500", displayDuringSetup: true
+                input "HumReportTimeMax", "number", title: "Humidity Report Interval", description: "Select how many minutes interval for Humidity report (default 5).", range: "1..240", displayDuringSetup: true
+                input "HumReportTrigger", "number", title: "Humidity Report Trigger", description: "Select how many Humidity % (1% = 100) change to trigger Humidity report (default 100).", range: "100..500", displayDuringSetup: true
 
 	}
 
@@ -185,8 +185,9 @@ def refresh() {
 			zigbee.readAttribute(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000)+
 			zigbee.readAttribute(zigbee.RELATIVE_HUMIDITY_CLUSTER, 0x0000)
 	} else {
-		return zigbee.readAttribute(0xFC45, 0x0000, ["mfgCode": 0x104E]) +   // New firmware
-			zigbee.readAttribute(0xFC45, 0x0000, ["mfgCode": 0xC2DF]) +   // Original firmware
+		//return zigbee.readAttribute(0xFC45, 0x0000, ["mfgCode": 0x104E]) +   // New firmware
+			//zigbee.readAttribute(0xFC45, 0x0000, ["mfgCode": 0xC2DF]) +   // Original firmware
+		 return zigbee.readAttribute(zigbee.RELATIVE_HUMIDITY_CLUSTER, 0x0000) +
 			zigbee.readAttribute(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000) +
 			zigbee.readAttribute(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0020)
 	}
@@ -213,17 +214,17 @@ def configure() {
 		return refresh() +
 			zigbee.temperatureConfig(30, tempTime * 60, tempTrigger) +
 			zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0021, DataType.UINT8, 30, 21600, 0x10) +
-			zigbee.configureReporting(0x0405, 0x0000, DataType.UINT16, 30, humTime * 60, humTrigger, [destEndpoint: 0x02])
+			zigbee.configureReporting(0x0405, 0x0000, DataType.UINT16, 540, humTime * 60, humTrigger, [destEndpoint: 0x02]) // Min report 9 minutes
 	} else if (isFrientSensor()) {
 		return refresh() + 
-			zigbee.configureReporting(zigbee.RELATIVE_HUMIDITY_CLUSTER, 0x0000, DataType.UINT16, 60, humTime * 60, humTrigger) +
+			zigbee.configureReporting(zigbee.RELATIVE_HUMIDITY_CLUSTER, 0x0000, DataType.UINT16, 540, humTime * 60, humTrigger) + // Min report 9 minutes
 			zigbee.configureReporting(zigbee.TEMPERATURE_MEASUREMENT_CLUSTER, 0x0000, DataType.INT16, 60, tempTime * 60, tempTrigger) +
 			zigbee.configureReporting(zigbee.POWER_CONFIGURATION_CLUSTER, 0x0020, DataType.UINT8, 30, 21600, 0x1)
 	} else {
 		return refresh() +
 			//zigbee.configureReporting(0xFC45, 0x0000, DataType.UINT16, 30, humTime * 60, humTrigger, ["mfgCode": 0x104E]) +   // New firmware
 			//zigbee.configureReporting(0xFC45, 0x0000, DataType.UINT16, 30, humTime * 60, humTrigger, ["mfgCode": 0xC2DF]) +   // Original firmware
-			zigbee.configureReporting(zigbee.RELATIVE_HUMIDITY_CLUSTER, 0x0000, DataType.UINT16, 60, humTime * 60, humTrigger) +
+			zigbee.configureReporting(zigbee.RELATIVE_HUMIDITY_CLUSTER, 0x0000, DataType.UINT16, 540, humTime * 60, humTrigger) + // Min report 9 minutes
 			zigbee.batteryConfig() +
 			zigbee.temperatureConfig(30, tempTime * 60, tempTrigger)
 	}
