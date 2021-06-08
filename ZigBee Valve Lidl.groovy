@@ -152,10 +152,12 @@ def refresh() {
     def cmds = []
     cmds += zigbee.onOffRefresh()
     cmds += zigbee.readAttribute(CLUSTER_BASIC, BASIC_ATTR_POWER_SOURCE)
-    cmds += zigbee.readAttribute(CLUSTER_POWER, POWER_ATTR_BATTERY_PERCENTAGE_REMAINING)
+    //cmds += zigbee.readAttribute(CLUSTER_POWER, POWER_ATTR_BATTERY_PERCENTAGE_REMAINING)
+    cmds += zigbee.readAttribute(CLUSTER_POWER, BATTERY_VOLTAGE_VALUE_ATTRIBUTE)
     cmds += zigbee.onOffConfig()
     cmds += zigbee.configureReporting(CLUSTER_BASIC, BASIC_ATTR_POWER_SOURCE, DataType.ENUM8, 5, 21600, 1)
-    cmds += zigbee.configureReporting(CLUSTER_POWER, POWER_ATTR_BATTERY_PERCENTAGE_REMAINING, DataType.UINT8, 600, 21600, 1)
+    //cmds += zigbee.configureReporting(CLUSTER_POWER, POWER_ATTR_BATTERY_PERCENTAGE_REMAINING, DataType.UINT8, 600, 21600, 1)
+    cmds += zigbee.configureReporting(CLUSTER_POWER, BATTERY_VOLTAGE_VALUE_ATTRIBUTE, DataType.UINT8, 600, 21600, 1)
     return cmds
 }
 
