@@ -15,7 +15,7 @@ import physicalgraph.zigbee.clusters.iaszone.ZoneStatus
 import physicalgraph.zigbee.zcl.DataType
 
 metadata {
-    definition (name: "ZigBee Valve Lidl", namespace: "smartthings", author: "SmartThings-MCC", runLocally: true, minHubCoreVersion: '000.017.0012', executeCommandsLocally: false) {
+    definition (name: "ZigBee Valve Lidl", namespace: "smartthings", author: "SmartThings-MCC", runLocally: false, minHubCoreVersion: '000.017.0012', executeCommandsLocally: false) {
         capability "Actuator"
         capability "Battery"
         capability "Configuration"
@@ -117,7 +117,8 @@ def parse(String description) {
 	    log.debug 'Battery'
 	    def linkText = getLinkText(device)
 
-	    def volts = rawValue / 10
+	    //def volts = rawValue / 10
+        def volts = Integer.parseInt(descMap.value, 16) /10
 	    if (!(rawValue == 0 || rawValue == 255)) {
 		 def minVolts = 2.3
          def maxVolts = 3.0
