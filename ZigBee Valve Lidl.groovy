@@ -99,6 +99,7 @@ def parse(String description) {
         def descMap = zigbee.parseDescriptionAsMap(description)
         if (descMap.clusterInt == CLUSTER_BASIC && descMap.attrInt == BASIC_ATTR_POWER_SOURCE){
             def value = descMap.value
+            log.debug "Source value= $value"
             if (value == "01" || value == "02") {
                 sendEvent(name: "powerSource", value: "mains")
             }
@@ -112,14 +113,14 @@ def parse(String description) {
                 sendEvent(name: "powerSource", value: "unknown")
             }
         }
-        else if (descMap.clusterInt == CLUSTER_POWER && descMap.attrInt == BATTERY_VOLTAGE_VALUE_ATTRIBUTE) {
+        else if (descMap.clusterInt == CLUSTER_POWER && descMap.attrInt == BATTERY_VOLTAGE_VALUE_ATTRIBUTE && descMap.commandInt != 0x07) {
         //else if (descMap.clusterInt == CLUSTER_POWER && descMap.attrInt == POWER_ATTR_BATTERY_PERCENTAGE_REMAINING) {
-	    log.debug 'Battery..'
+	    log.debug 'Battery'
 	    def linkText = getLinkText(device)
 
 	    def rawValue = Integer.parseInt(descMap.value, 16)
-            def volts = rawValue / 10
-            log.debug "rawValue= $rawValue"
+        def volts = rawValue / 10
+        log.debug "rawValue= $rawValue" 
 	    if (!(rawValue == 0 || rawValue == 255)) {
 		 def minVolts = 2.3
          def maxVolts = 3.0
@@ -157,7 +158,7 @@ def refresh() {
     //cmds += zigbee.readAttribute(CLUSTER_POWER, POWER_ATTR_BATTERY_PERCENTAGE_REMAINING)
     cmds += zigbee.readAttribute(CLUSTER_POWER, BATTERY_VOLTAGE_VALUE_ATTRIBUTE)
     cmds += zigbee.onOffConfig()
-    cmds += zigbee.configureReporting(CLUSTER_BASIC, BASIC_ATTR_POWER_SOURCE, DataType.ENUM8, 5, 21600, 1)
+    cmds += zigbee.configureReporting(CLUSTER_BASIC, BASIC_ATTR_POWER_SOURCE, DataType.ENUM8, 5, 600, 1)
     //cmds += zigbee.configureReporting(CLUSTER_POWER, POWER_ATTR_BATTERY_PERCENTAGE_REMAINING, DataType.UINT8, 600, 21600, 1)
     cmds += zigbee.configureReporting(CLUSTER_POWER, BATTERY_VOLTAGE_VALUE_ATTRIBUTE, DataType.UINT8, 600, 21600, 1)
     return cmds
