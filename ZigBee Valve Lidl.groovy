@@ -114,12 +114,12 @@ def parse(String description) {
         }
         else if (descMap.clusterInt == CLUSTER_POWER && descMap.attrInt == BATTERY_VOLTAGE_VALUE_ATTRIBUTE) {
         //else if (descMap.clusterInt == CLUSTER_POWER && descMap.attrInt == POWER_ATTR_BATTERY_PERCENTAGE_REMAINING) {
-	    log.debug 'Battery'
+	    log.debug 'Battery..'
 	    def linkText = getLinkText(device)
 
 	    def rawValue = Integer.parseInt(descMap.value, 16)
             def volts = rawValue / 10
-
+            log.debug "rawValue= $rawValue"
 	    if (!(rawValue == 0 || rawValue == 255)) {
 		 def minVolts = 2.3
          def maxVolts = 3.0
