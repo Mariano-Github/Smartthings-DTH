@@ -24,7 +24,7 @@ metadata {
         capability "Refresh"
         capability "Valve"
 
-        fingerprint profileId: "0104", inClusters: "0000, 0004, 0005, 0006, 0003, EF00", outClusters: "0019, 000A", manufacturer: "TZE200_htnnfasr", model: "TS0601", deviceJoinName: "Valve" //Water Valve Actuator Lidl
+        fingerprint profileId: "0104", deviceId: "0000", inClusters: "0000, 0004, 0005, 0006, 0003, EF00", outClusters: "0019, 000A", manufacturer: "TZE200_htnnfasr", model: "TS0601", deviceJoinName: "Valve" //Water Valve Actuator Lidl
         fingerprint profileId: "0104", inClusters: "0000, 0004, 0005, 0006", outClusters: "0019", manufacturer: "", model: "TS0011", deviceJoinName: "Valve" //Smart Gas & Water Valve Actuator
         fingerprint profileId: "0104", inClusters: "0000, 0001, 0003, 0006, 0020, 0B02, FC02", outClusters: "0019", manufacturer: "WAXMAN", model: "leakSMART Water Valve v2.10", deviceJoinName: "leakSMART Valve" //leakSMART Valve
         fingerprint profileId: "0104", inClusters: "0000, 0001, 0003, 0004, 0005, 0006, 0008, 000F, 0020, 0B02", outClusters: "0003, 0019", manufacturer: "WAXMAN", model: "House Water Valve - MDL-TBD", deviceJoinName: "Waxman Valve" //Waxman House Water Valve
