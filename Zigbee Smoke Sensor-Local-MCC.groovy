@@ -15,6 +15,7 @@
   *  Author : Fen Mei / f.mei@samsung.com
   *  Date : 2018-07-06
   *  Mod 2021-01-30: Mariano Colmenarejo, to include HEIMAN Smoke Sensor model EF-3.0 (HS1SA-E) and runlocally
+  *  Mod 2021-10-14: Adnan Sarajlic, including frient Smoke Detector (SMSZB-120) working locally
   */
 
 import physicalgraph.zigbee.clusters.iaszone.ZoneStatus
@@ -34,7 +35,7 @@ metadata {
 		fingerprint profileId: "0104", deviceId: "0402", inClusters: "0000,0001,0003,0500,0502", outClusters: "0019", manufacturer: "HEIMAN", model: "SmokeSensor-EM", deviceJoinName: "HEIMAN Smoke Detector" //HEIMAN Smoke Sensor (HS1SA-E)
 		fingerprint profileId: "0104", deviceId: "0402", inClusters: "0000,0001,0003,0500,0502,0B05", outClusters: "0019", manufacturer: "HEIMAN", model: "SmokeSensor-N-3.0", deviceJoinName: "HEIMAN Smoke Detector" //HEIMAN Smoke Sensor (HS3SA)
                 fingerprint profileId: "0104", deviceId: "0402", inClusters: "0000,0001,0003,0500,0502,0B05", outClusters: "0019", manufacturer: "HEIMAN", model: "SmokeSensor-EF-3.0", deviceJoinName: "HEIMAN Smoke Detector" //HEIMAN Smoke Sensor (HS1SA-E)
-
+		fingerprint profileId: "0104", deviceId: "0402", inClusters: "0000,0001,0003,000F,0020,0500,0502", outClusters: "000A,0019", manufacturer: "frient A/S", model :"SMSZB-120", deviceJoinName: "frient Smoke Detector" // frient Intelligent Smoke Alarm
 	}
 
 	tiles {
