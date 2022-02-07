@@ -28,10 +28,10 @@ metadata {
 		// Centralite
 		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0B05", outClusters: "0003, 0006, 0019", manufacturer: "Centralite Systems", model: "4200-C", deviceJoinName: "Centralite Outlet", ocfDeviceType: "oic.d.smartplug" //Centralite Smart Outlet
 
-    // Vimar
+                // Vimar
 		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0007", outClusters: "0003, 0006", manufacturer: "Vimar", model: " On_Off_Switch_v1.0", deviceJoinName: "Vimar Switch", ocfDeviceType: "oic.d.smartplug" //Vimar Switch
 
-    // eWeLink
+                // eWeLink
 		fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006", outClusters: "0000", manufacturer: "eWeLink", model: "SA-003-Zigbee", deviceJoinName: "eWeLink Outlet", ocfDeviceType: "oic.d.smartplug" //eWeLink SmartPlug (SA-003)
 		fingerprint profileId: "0104", inClusters: "0000,0003,0004,00005,0006", outClusters: "0000", manufacturer: "eWeLink", model: "ZB-SW01", deviceJoinName: "eWeLink Switch"
          
